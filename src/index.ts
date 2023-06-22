@@ -26,9 +26,8 @@ const connect = async () => {
 
 async function main() {
   conn = (await connect()) as amqplib.Channel;
-  if (!conn) return;
+  if (!conn) throw new Error("Failed to connect to RabbitMQ");
   await fastify.listen({ port: 8080, host: "0.0.0.0" });
-  conn.sendToQueue(queue, Buffer.from("Hello World!"));
 }
 
 fastify.get("/", async (request, reply) => {
